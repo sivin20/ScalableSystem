@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FontPageService } from '../font-page.service';
+import { FontPageService } from '../../services/font-page.service';
 
 @Component({
     selector: 'app-front-page',
