@@ -1,6 +1,7 @@
 import random
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from models import Weather
 from price.getPrice import getPrice
 
 
@@ -21,7 +22,7 @@ app.add_middleware(
 
 
 @app.get("/price")
-async def read_item(weekday, time, weather):
+async def read_item(weekday: int, time: int, weather: Weather):
     return {"price": random.randint(0, 10000)}
 
 
