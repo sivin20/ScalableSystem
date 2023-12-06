@@ -23,7 +23,7 @@ app.add_middleware(
 
 @app.get("/price")
 async def read_item(weekday: int, time: int, weather: Weather):
-    return {"price": random.randint(0, 10000)}
+    return await getPrice(weekday, time, weather)
 
 
 @app.get("/some")
