@@ -7,15 +7,18 @@ import { HttpClient } from "@angular/common/http";
 })
 export class TaxiPriceService {
 
+  private BACKEND_URL: string = 'http://127.0.0.1:8000'
+
 	constructor(
 		private http: HttpClient,
 
 	) { }
 
 
-	async getPrice(): Promise<number> {
+	async getPrice(params: string): Promise<number> {
 		return new Promise(async (resolve: any, reject: any) => {
-			return this.http.get(`http://127.0.0.1:8000`).toPromise().then((res) => {
+      const url: string =`${this.BACKEND_URL}/price?${params}`
+			return this.http.get(url).toPromise().then((res) => {
 				return resolve(res)
 			}).catch((err) => {
 				return reject(err);
