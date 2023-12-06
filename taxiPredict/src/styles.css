@@ -57,6 +57,10 @@ a:active {
   font-size: 2rem;
 }
 
+.button:disabled {
+  opacity: 50%;
+}
+
 .button-big {
   font-size: 2rem;
 }

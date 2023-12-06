@@ -6,11 +6,11 @@
   <div class="body-container">
     <h3>Calculate the price of your taxi fare</h3>
 
-    <form #priceForm="ngForm" (ngSubmit)="submitForm(priceForm)">
+    <form [formGroup]="priceForm" (ngSubmit)="submitForm()">
       <!-- Day options -->
       <div class="select-box">
         <label for="day">Day</label>
-        <select name="day" id="day" [(ngModel)]="inputDetails.day">
+        <select class="form-control" name="day" id="day" formControlName="day" required>
           @for (day of days; track day) {
             <option value="{{day.id}}">{{day.day}}</option>
           }
@@ -20,7 +20,7 @@
       <!-- Time options -->
       <div class="select-box">
         <label for="time">Time of day</label>
-        <select name="time" id="time" [(ngModel)]="inputDetails.time">
+        <select class="form-control" name="time" id="time" formControlName="time" required>
           @for (time of [].constructor(24); track time; let idx = $index) {
             <option value="{{idx+1}}">{{idx + 1}}:00</option>
           }
@@ -30,14 +30,16 @@
       <!-- Weather options -->
       <div class="select-box">
         <label for="weather">Current weather</label>
-        <select name="weather" id="weather" [(ngModel)]="inputDetails.weather">
+        <select class="form-control" name="weather" id="weather" formControlName="weather" required>
           @for (weather of weathers; track weather) {
             <option value="{{weather}}">{{weather}}</option>
           }
         </select>
       </div>
 
-      <button class="button button-small" type="submit">Calculate price</button>
+      <button class="button button-small"
+              [disabled]="!priceForm.valid"
+              type="submit">Calculate price</button>
 
     </form>
     <div>

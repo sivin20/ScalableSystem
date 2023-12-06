@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TaxiPriceService} from "../../services/taxi-price.service";
 import {RouterLink} from "@angular/router";
-import {FormsModule} from "@angular/forms";
+import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 
 interface day {
   id: number,
@@ -18,14 +18,17 @@ interface details {
   standalone: true,
   imports: [
     RouterLink,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   templateUrl: './taxi-price-page.component.html',
   styleUrl: './taxi-price-page.component.scss'
 })
-export class TaxiPricePageComponent {
+export class TaxiPricePageComponent implements OnInit {
 
   price: string = '-'
+
+  priceForm: any
 
   days: day[] = [
     {id: 1, day: 'Monday'},
@@ -42,20 +45,29 @@ export class TaxiPricePageComponent {
     'sunny',
     'rain'
   ]
-
-  inputDetails: details = {
-    day: 0,
-    time: 0,
-    weather: ''
-  }
   constructor (
-    public taxiPriceService: TaxiPriceService, // used in html
+    public taxiPriceService: TaxiPriceService,
+    private formBuilder: FormBuilder
   ) {}
 
-  submitForm(form: any): void {
-    if (form.valid) {
-      console.log('Form data:', this.inputDetails);
-      this.getPrice(this.inputDetails)
+  ngOnInit(): void {
+    this.priceForm = this.formBuilder.group({
+      day: [null, Validators.required],
+      time: [null, [Validators.required]],
+      weather: [null, Validators.required],
+    });
+  }
+
+  submitForm(): void {
+    if (this.priceForm.valid) {
+      const details = {
+        day: this.priceForm.value.day,
+        time: this.priceForm.value.time,
+        weather: this.priceForm.value.weather
+      }
+      this.getPrice(details)
+    } else {
+      console.log("not valid")
     }
   }
   async getPrice(details: details) {
