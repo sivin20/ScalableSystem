@@ -30,15 +30,10 @@ helm install -n stackable --wait secret-operator stackable-stable/secret-operato
 
 To setup a zookeeper cluster, use the files in `./k8sDeploymentFiles/zookeeper`
 
-First, create a namespace called `zookeeper` using 
-```bash
-kubectl create namespace zookeeper
-```
-
 Next, run 
 ```bash
-kubectl apply -n zookeeper -f zookeeper/zk.yml
-kubectl apply -n zookeeper -f zookeeper/znode.yml
+kubectl apply -n stackable -f zookeeper/zk.yml
+kubectl apply -n stackable -f zookeeper/znode.yml
 ```
 
 ## Hdfs
@@ -47,7 +42,7 @@ To setup hdfs, we will be using the same namespace `zookeeper`
 
 To deploy the hdfs system, run:
 ```bash
-kubectl apply -n zookeeper -f hdfs/hdfs.yaml
+kubectl apply -n stackable -f hdfs/hdfs.yaml
 ```
 
 ## Kafka
@@ -68,3 +63,40 @@ Afterwards, run these commands to setup a kafka cluster and kafka tooling
 kubectl apply -n kafka -f kafka/kafka.yaml
 kubectl apply -n kafka -f kafka/kafka-extra.yaml
 ```
+
+
+# Ja Hans, det er fint, men nu vil jeg gerne lave noget på det
+
+Super, så skal du først ssh'e ind i én af vores vm'er
+
+Enten 
+* bds-g09-n0
+* bds-g09-n1
+* bds-g09-n2
+
+Ved f.eks. 
+`ssh bds-g09-n0`
+Derved åbner du adgang til at port-forwarde ved kubectl
+
+## Red Panda (Et ui til Kafka)
+
+`kubectl port-forward svc/redpanda  8080:8080 -n kafka`
+
+Navigér herefter til localhost:8080
+
+## Kafka Schema Registry
+
+`kubectl port-forward svc/kafka-schema-registry  8081:8081 -n kafka`
+Her can du bruge cURL `curl localhost:8081` til at få dets data, eller blot navigere til localhost:8081
+
+## Kafka Connect
+
+`kubectl port-forward svc/kafka-connect  8083:8083 -n kafka`
+Samme som Kafka Schema Registry `curl localhost:8083` eller blot navigere til localhost:8083
+
+## ksqldb console
+
+For at åbne ksqldb konsollen, kan du exec ind i containeren ved
+
+`kubectl exec --namespace=kafka --stdin --tty deployment/kafka-ksqldb-cli -- ksql http://kafka-ksqldb-server:8088`
+
