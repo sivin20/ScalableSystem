@@ -1,0 +1,28 @@
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem;
+}
+
+.taxi-image {
+  width: 100%;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@media only screen and (min-width: 768px){
+  .page-container {
+    flex-direction: row;
+  }
+  .page-container * {
+    max-width: 50%;
+  }
+}

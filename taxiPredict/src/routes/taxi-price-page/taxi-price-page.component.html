@@ -1,0 +1,45 @@
+
+<div>
+  <header>
+    <h1>Taxi Price</h1>
+  </header>
+  <div class="body-container">
+    <h3>Calculate the price of your taxi fare</h3>
+
+    <!-- Day options -->
+    <div class="select-box">
+      <label for="daySelectBox">Day</label>
+      <select name="day" id="daySelectBox">
+        @for (day of days; track day) {
+          <option value="{{day.id}}">{{day.day}}</option>
+        }
+      </select>
+    </div>
+
+    <!-- Time options -->
+    <div class="select-box">
+      <label for="timeSelectBox">Time of day</label>
+      <select name="day" id="timeSelectBox">
+        @for (time of [].constructor(24); track time; let idx = $index) {
+          <option value="{{idx+1}}">{{idx + 1}}:00</option>
+        }
+      </select>
+    </div>
+
+    <!-- Weather options -->
+    <div class="select-box">
+      <label for="weatherSelectBox">Current weather</label>
+      <select name="day" id="weatherSelectBox">
+        @for (day of days; track day) {
+          <option value="{{day.id}}">{{day.day}}</option>
+        }
+      </select>
+    </div>
+
+    <button class="button button-small" (click)="test()">Calculate price</button>
+
+    <div>
+      <h1 class="price">{{price}}$</h1>
+    </div>
+  </div>
+</div>
