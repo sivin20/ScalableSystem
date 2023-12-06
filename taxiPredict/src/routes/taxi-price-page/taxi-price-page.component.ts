@@ -25,7 +25,7 @@ interface details {
 })
 export class TaxiPricePageComponent {
 
-  price: number = 10
+  price: string = '-'
 
   days: day[] = [
     {id: 1, day: 'Monday'},
@@ -38,9 +38,9 @@ export class TaxiPricePageComponent {
   ]
 
   weathers: string[] = [
-    'Snowy',
-    'Sunny',
-    'Rainy'
+    'clear',
+    'sunny',
+    'rain'
   ]
 
   inputDetails: details = {
@@ -60,6 +60,6 @@ export class TaxiPricePageComponent {
   }
   async getPrice(details: details) {
     const params: string = `weekday=${details.day}&time=${details.time}&weather=${details.weather}`
-    this.price = await this.taxiPriceService.getPrice(params)
+    this.price = (await this.taxiPriceService.getPrice(params)).price.toFixed(2)
   }
 }

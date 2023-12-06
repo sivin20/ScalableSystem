@@ -524,7 +524,7 @@ mockdata = {
         "cold": 1.05,
         "frezzing": 1.1,
         "rain": 1.25,
-        "hail": 1.4
+        "hail": 1.4,
+        "sunny": 1.09
     }
-
 }

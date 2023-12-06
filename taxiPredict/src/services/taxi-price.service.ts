@@ -15,7 +15,7 @@ export class TaxiPriceService {
 	) { }
 
 
-	async getPrice(params: string): Promise<number> {
+	async getPrice(params: string): Promise<{price: number}> {
 		return new Promise(async (resolve: any, reject: any) => {
       const url: string =`${this.BACKEND_URL}/price?${params}`
 			return this.http.get(url).toPromise().then((res) => {

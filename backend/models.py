@@ -6,3 +6,4 @@ class Weather(Enum):
     CLEAR = 'clear'
     CLOUDY = 'cloudy'
     FOGGY = 'foggy'
+    SUNNY = 'sunny'

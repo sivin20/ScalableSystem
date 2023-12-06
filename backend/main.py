@@ -2,7 +2,7 @@ import random
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from models import Weather
-from price.getPrice import getPrice
+from price.getPrice import calculatePrice
 
 
 # weekday: number = 1-7
@@ -23,7 +23,7 @@ app.add_middleware(
 
 @app.get("/price")
 async def getPrice(weekday: int, time: int, weather: Weather):
-    return await getPrice(weekday, time, weather)
+    return await calculatePrice(weekday, time, weather)
 
 
 @app.get("/some")
