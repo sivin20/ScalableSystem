@@ -4,9 +4,8 @@
     <a routerLink="/"><h1>Taxi Price</h1></a>
   </header>
   <div class="body-container">
-    <h3>Calculate the price of your taxi fare</h3>
-
     <form [formGroup]="priceForm" (ngSubmit)="submitForm()">
+      <h2>Calculate the price of your taxi fare</h2>
       <!-- Day options -->
       <div class="select-box">
         <label for="day">Day</label>
@@ -37,13 +36,14 @@
         </select>
       </div>
 
-      <button class="button button-small"
+      <button class="button button-small pointer"
               [disabled]="!priceForm.valid"
               type="submit">Calculate price</button>
 
     </form>
-    <div>
-      <h1 class="price">{{price}}$</h1>
+    <div class="price">
+      <h2>Price of the fare</h2>
+      <h1>{{price}}$</h1>
     </div>
   </div>
 </div>

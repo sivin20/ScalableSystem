@@ -40,11 +40,16 @@ a:active {
   display: flex;
   flex-direction: column;
   width: 100%;
+  max-width: 30rem;
   margin: 1rem 0;
 
   select {
     padding: 0.5rem;
   }
+}
+
+.pointer {
+  cursor: pointer;
 }
 
 .button {

@@ -29,5 +29,23 @@ header {
 }
 
 .price {
-  color: var(--price)
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  h1 {
+    color: var(--price);
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .body-container {
+    flex-direction: row;
+  }
+
+  .body-container div:first-child {
+    max-width: 50%;
+  }
 }
