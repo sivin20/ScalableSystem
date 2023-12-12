@@ -1,41 +1,45 @@
 import threading
-from client import get_producer, DEFAULT_TOPIC, produce_msg
-
+from client import get_producer, DEFAULT_TOPIC, send_avro_msg
+import io
+import os
+import csv
+import avro.schema
+from avro.io import DatumWriter, DatumReader, BinaryDecoder, BinaryEncoder
+from avro.datafile import DataFileReader, DataFileWriter
+from collections import namedtuple
 
 class RepeatTimer(threading.Timer):
     def run(self):
         while not self.finished.wait(self.interval):
             self.function(*self.args, **self.kwargs)
 
+TAXIDATA = "./data/yellow_tripdata_2016-03.csv"
+fields = ("VendorID", "tpep_pickup_datetime", "tpep_dropoff_datetime", "passenger_count", "trip_distance", "pickup_longitude", "pickup_latitude", "RatecodeID", "store_and_fwd_flag", "dropoff_longitude", "dropoff_latitude", "payment_type", "fare_amount", "extra", "mta_tax", "tip_amount", "tolls_amount", "improvement_surcharge", "total_amount")
+taxiRecord = namedtuple('taxiRecord', fields)
 
-def main():
-    timer1 = RepeatTimer(1.0, produce_msg, [1, DEFAULT_TOPIC, get_producer()])
-    timer2 = RepeatTimer(1.0, produce_msg, [2, DEFAULT_TOPIC, get_producer()])
-    timer3 = RepeatTimer(1.0, produce_msg, [3, DEFAULT_TOPIC, get_producer()])
-    timer4 = RepeatTimer(1.0, produce_msg, [4, DEFAULT_TOPIC, get_producer()])
-    timer5 = RepeatTimer(1.0, produce_msg, [5, DEFAULT_TOPIC, get_producer()])
-    timer6 = RepeatTimer(1.0, produce_msg, [6, DEFAULT_TOPIC, get_producer()])
+def read_taxi_data(path):
+    with open(path, 'rU') as data:
+        data.readline()
+        reader = csv.reader(data, delimiter = ",")
+        for row in map(taxiRecord._make, reader):
+            yield(row)
 
-    try:
-        timer1.start()
-        timer2.start()
-        timer3.start()
-        timer4.start()
-        timer5.start()
-        timer6.start()
-        while True:
-            pass
 
-    except KeyboardInterrupt:
-        pass
-    finally:
-        timer1.cancel()
-        timer2.cancel()
-        timer3.cancel()
-        timer4.cancel()
-        timer5.cancel()
-        timer6.cancel()
+def parse_schema(path="avroschema.avsc"):
+    with open(path, 'rb') as data:
+        return avro.schema.parse(data.read())
+    
+def serialize_records(records, outpath="taxi.avro"):
+    schema = parse_schema()
+    writer = DatumWriter(schema)
+    bytes_writer = io.BytesIO()
+    encoder = avro.io.BinaryEncoder(bytes_writer)
+    for record in records:
+        record = dict((f, getattr(record, f)) for f in record._fields)
+        writer.write(record, encoder)
+        raw_bytes=bytes_writer.getvalue()
+        send_avro_msg(raw_bytes, DEFAULT_TOPIC, get_producer())
 
 
 if __name__ == "__main__":
-    main()
+    serialize_records(read_taxi_data(TAXIDATA))

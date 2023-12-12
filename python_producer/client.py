@@ -20,6 +20,8 @@ def get_consumer(topic: str, group_id: str = None) -> KafkaConsumer:
         group_id = DEFAULT_CONSUMER
     return KafkaConsumer(topic, bootstrap_servers=[KAFKA_BROKERS], group_id=group_id)
 
+def send_avro_msg(value, topic: str, producer: KafkaProducer):
+    producer.send(topic, value)
 
 def send_msg(value, key: str, topic: str, producer: KafkaProducer) -> None:
     producer.send(
