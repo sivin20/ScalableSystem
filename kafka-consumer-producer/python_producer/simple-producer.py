@@ -4,8 +4,7 @@ import io
 import os
 import csv
 import avro.schema
-from avro.io import DatumWriter, DatumReader, BinaryDecoder, BinaryEncoder
-from avro.datafile import DataFileReader, DataFileWriter
+from avro.io import DatumWriter
 from collections import namedtuple
 
 class RepeatTimer(threading.Timer):
