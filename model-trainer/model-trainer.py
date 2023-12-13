@@ -40,7 +40,7 @@ def get_specific_entries(file_path):
         print("File not found. Please provide a valid file path.")
 
 # Replace 'file_path.csv' with the path to your CSV file
-file_path = './example_data.csv'
+file_path = './model-trainer/example_data.csv'
 get_specific_entries(file_path)
 
 
@@ -48,7 +48,7 @@ rf_classifier = RandomForestClassifier(n_estimators=500, random_state=42)
 
 rf_classifier.fit(x, y)
 
-joblib.dump(rf_classifier, '../backend/saved_model.pkl')
+joblib.dump(rf_classifier, './backend/saved_model.pkl')
 
 
 ## testing purposes
