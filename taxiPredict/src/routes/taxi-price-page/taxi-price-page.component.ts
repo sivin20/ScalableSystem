@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {TaxiPriceService} from "../../services/taxi-price.service";
 import {RouterLink} from "@angular/router";
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import moment from 'moment';
 
 interface day {
   id: number,
@@ -9,9 +10,9 @@ interface day {
 }
 
 interface details {
-  day: number,
-  time: number,
-  weather: string
+  duration: number,
+  distance: number,
+  //weather: string
 }
 @Component({
   selector: 'app-taxi-price-page',
@@ -52,18 +53,18 @@ export class TaxiPricePageComponent implements OnInit {
 
   ngOnInit(): void {
     this.priceForm = this.formBuilder.group({
-      day: [null, Validators.required],
-      time: [null, [Validators.required]],
-      weather: [null, Validators.required],
+      distance: [null, Validators.required],
+      duration: [null, [Validators.required]],
+      //weather: [null, Validators.required],
     });
   }
 
   submitForm(): void {
     if (this.priceForm.valid) {
-      const details = {
-        day: this.priceForm.value.day,
-        time: this.priceForm.value.time,
-        weather: this.priceForm.value.weather
+      const details: details = {
+        distance: this.priceForm.value.distance,
+        duration: this.priceForm.value.duration,
+        //weather: this.priceForm.value.weather
       }
       this.getPrice(details)
     } else {
@@ -71,7 +72,7 @@ export class TaxiPricePageComponent implements OnInit {
     }
   }
   async getPrice(details: details) {
-    const params: string = `weekday=${details.day}&time=${details.time}&weather=${details.weather}`
+    const params: string = `start=${moment().unix()-moment().startOf('day').unix()}&duration=${details.duration}&distance=${details.distance}`
     this.price = (await this.taxiPriceService.getPrice(params)).price.toFixed(2)
   }
 }

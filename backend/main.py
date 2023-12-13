@@ -22,8 +22,8 @@ app.add_middleware(
 
 
 @app.get("/price")
-async def getPrice(weekday: int, time: int, weather: Weather):
-    return await calculatePrice(weekday, time, weather)
+async def getPrice(start:int, duration: int, distance: int):
+    return calculatePrice(start, duration, distance)
 
 
 @app.get("/some")

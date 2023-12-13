@@ -6,27 +6,20 @@
   <div class="body-container">
     <form [formGroup]="priceForm" (ngSubmit)="submitForm()">
       <h2>Calculate the price of your taxi fare</h2>
-      <!-- Day options -->
+
+      <!-- duration options -->
       <div class="select-box">
-        <label for="day">Day</label>
-        <select class="form-control" name="day" id="day" formControlName="day" required>
-          @for (day of days; track day) {
-            <option value="{{day.id}}">{{day.day}}</option>
-          }
-        </select>
+        <label for="duration">Duration in seconds</label>
+        <input class="form-control" name="duration" id="duration" formControlName="duration" type="number" required>
       </div>
 
-      <!-- Time options -->
+      <!-- Distance options -->
       <div class="select-box">
-        <label for="time">Time of day</label>
-        <select class="form-control" name="time" id="time" formControlName="time" required>
-          @for (time of [].constructor(24); track time; let idx = $index) {
-            <option value="{{idx+1}}">{{idx + 1}}:00</option>
-          }
-        </select>
+        <label for="distance">Distance in </label>
+        <input class="form-control" name="distance" id="distance" formControlName="distance" type="number" required>
       </div>
 
-      <!-- Weather options -->
+      <!-- Weather options
       <div class="select-box">
         <label for="weather">Current weather</label>
         <select class="form-control" name="weather" id="weather" formControlName="weather" required>
@@ -34,7 +27,7 @@
             <option value="{{weather}}">{{weather}}</option>
           }
         </select>
-      </div>
+      </div> -->
 
       <button class="button button-small pointer"
               [disabled]="!priceForm.valid"
