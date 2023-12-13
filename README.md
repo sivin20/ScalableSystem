@@ -64,6 +64,27 @@ kubectl apply -n kafka -f kafka/kafka.yaml
 kubectl apply -n kafka -f kafka/kafka-extra.yaml
 ```
 
+## HBase Database
+
+Stackable also has operators for HBase, so we will use those
+
+If you have followed the previous steps, the helm repo should already be added, but in case it has been removed.
+`helm repo add stackable-stable https://repo.stackable.tech/repository/helm-stable/`
+
+First, follow the steps of installing Zookeeper and HDFS. When that has been done run
+```
+helm install -n stackable --wait listener-operator stackable-stable/listener-operator --version 23.11.0
+helm install -n stackable --wait hbase-operator stackable-stable/hbase-operator --version 23.11.0
+```
+
+Once that is done, navigate to the `k8sDeploymentFiles/hbase` and run
+
+`kubectl apply -n stackable -f zookeeper-hbase.yaml`
+
+Next, setup the HBase cluster by running
+
+`kubectl apply -n stackable -f hbase.yaml`
+
 
 # Ja Hans, det er fint, men nu vil jeg gerne lave noget på det
 
