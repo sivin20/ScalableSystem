@@ -1,5 +1,5 @@
-docker build -t consumer -f Dockerfile-consumer .
+docker build -t producer .
 
-docker tag consumer:latest sivin20/pythonconsumer
+docker tag producer:latest sivin20/pythonproducer
 
-docker push sivin20/pythonconsumer
+docker push sivin20/pythonproducer

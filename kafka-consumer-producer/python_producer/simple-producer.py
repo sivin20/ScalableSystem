@@ -30,10 +30,10 @@ def parse_schema(path="avroschema.avsc"):
     
 def serialize_records(records, outpath="taxi.avro"):
     schema = parse_schema()
-    writer = DatumWriter(schema)
-    bytes_writer = io.BytesIO()
-    encoder = avro.io.BinaryEncoder(bytes_writer)
     for record in records:
+        writer = DatumWriter(schema)
+        bytes_writer = io.BytesIO()
+        encoder = avro.io.BinaryEncoder(bytes_writer)
         record = dict((f, getattr(record, f)) for f in record._fields)
         writer.write(record, encoder)
         raw_bytes=bytes_writer.getvalue()
