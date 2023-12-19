@@ -29,7 +29,7 @@ def recive_msg(consumer: KafkaConsumer) -> None:
     print('msg')
     for msg in consumer:
         print(datetime.now())
-        print('------------MSG1------------ \n' + str(deserialize_record(msg.value)))
+        print(str(deserialize_record(msg.value)) + ", { weather: rainy }")
 
 def parse_schema(path="weatherSchema.avsc"):
     with open(path, 'rb') as data:

@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TaxiPriceService} from "../../services/taxi-price.service";
 import {RouterLink} from "@angular/router";
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import moment from 'moment';
+import {DatePipe} from "@angular/common";
 
 interface day {
   id: number,
@@ -20,12 +21,13 @@ interface details {
   imports: [
     RouterLink,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DatePipe
   ],
   templateUrl: './taxi-price-page.component.html',
   styleUrl: './taxi-price-page.component.scss'
 })
-export class TaxiPricePageComponent implements OnInit {
+export class TaxiPricePageComponent implements OnInit, OnDestroy {
 
   price: string = '-'
 
@@ -57,6 +59,17 @@ export class TaxiPricePageComponent implements OnInit {
       duration: [null, [Validators.required]],
       //weather: [null, Validators.required],
     });
+    this.intervalId = setInterval(() => {
+      this.time = moment().subtract(5, 'months').subtract(7, 'years').toDate()
+    }, 1000);
+  }
+
+  time = moment().subtract(1, 'months').subtract(7, 'years').toDate()
+  intervalId: any;
+
+
+  ngOnDestroy() {
+    clearInterval(this.intervalId);
   }
 
   submitForm(): void {

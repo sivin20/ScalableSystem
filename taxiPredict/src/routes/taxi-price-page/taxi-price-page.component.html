@@ -3,6 +3,10 @@
   <header>
     <a routerLink="/"><h1>Taxi Price</h1></a>
   </header>
+  <div class="clock">
+    <div>{{ time | date: 'dd/MM/YYYY' }}</div>
+    <div>{{ time | date: 'hh:mm:ss a' }}</div>
+  </div>
   <div class="body-container">
     <form [formGroup]="priceForm" (ngSubmit)="submitForm()">
       <h2>Calculate the price of your taxi fare</h2>
