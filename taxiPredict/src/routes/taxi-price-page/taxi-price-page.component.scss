@@ -8,6 +8,22 @@ header {
   padding: 0.5rem 1rem;
 }
 
+.clock {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+
+  div:first-child {
+    font-size: 1.5rem;
+  }
+
+  div:not(:first-child) {
+    font-size: 2rem;
+  }
+}
+
 .body-container {
   padding: 1.5rem;
   display: flex;
