@@ -128,7 +128,7 @@ spec:
             claimName: kafka-connect-pv-claim
       containers:
         - name: kafka-connect
-          image: anderslaunerbaek/cp-server-connect-base:lec03hdfs2
+          image: hannehue/cp-server-connect-base:kafka-connect
           imagePullPolicy: "Always"
           securityContext:
             allowPrivilegeEscalation: false
